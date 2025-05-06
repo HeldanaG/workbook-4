@@ -1,63 +1,74 @@
 package com.pluralsight;
 
 public class Reservation {
-        private String roomType;
-        private double price;
-        private int numberOfNights;
-        private boolean isWeekend;
 
-        // Constructor
-        public Reservation(String roomType, int numberOfNights, boolean isWeekend) {
-            setRoomType(roomType);  // will set roomtype with price
-            this.numberOfNights = numberOfNights;
-            this.isWeekend = isWeekend;
-        }
+    // Fields to represent reservation details
+    private String roomType;         // Type of room: "king" or "double"
+    private double price;            // Price per night (based on room type)
+    private int numberOfNights;      // Number of nights the guest will stay
+    private boolean isWeekend;       // Whether the stay includes a weekend
 
-        // Getters and Setters
-        public String getRoomType() {
-            return roomType;
-        }
+    // Constructor: initializes the reservation with room type, nights, and weekend flag
+    public Reservation(String roomType, int numberOfNights, boolean isWeekend) {
+        setRoomType(roomType);  // Automatically sets price based on room type
+        this.numberOfNights = numberOfNights;
+        this.isWeekend = isWeekend;
+    }
 
-        public void setRoomType(String roomType) {
-            this.roomType = roomType.toLowerCase();
-            if (roomType.equalsIgnoreCase("king")) {
-                this.price = 139.00;
-            } else if (roomType.equalsIgnoreCase("double")) {
-                this.price = 124.00;
-            }else {
-                this.price=0;
-            }
-        }
+    // Getter for room type
+    public String getRoomType() {
+        return roomType;
+    }
 
-        public double getPrice() {
-            return price;
-        }
+    // Setter for room type (also sets the base price depending on type)
+    public void setRoomType(String roomType) {
+        this.roomType = roomType.toLowerCase();
 
-        public int getNumberOfNights() {
-            return numberOfNights;
-        }
-
-        public void setNumberOfNights(int numberOfNights) {
-            this.numberOfNights = numberOfNights;
-        }
-
-        public boolean isWeekend() {
-            return isWeekend;
-        }
-
-        public void setIsWeekend(boolean isWeekend) {
-            this.isWeekend = isWeekend;
-            // Recalculate price if weekend flag changes
-            setRoomType(this.roomType);  // Re-apply price logic
-        }
-
-        public double getReservationTotal() {
-           double total= this.getPrice() * this.getNumberOfNights();
-
-            // Apply weekend increase
-            if (this.isWeekend()) {
-               total=total*(total*0.1);
-            }
-            return total;
+        if (roomType.equalsIgnoreCase("king")) {
+            this.price = 139.00;
+        } else if (roomType.equalsIgnoreCase("double")) {
+            this.price = 124.00;
+        } else {
+            this.price = 0; // Default fallback for unknown room types
         }
     }
+
+    // Getter for price per night (after applying room type)
+    public double getPrice() {
+        return price;
+    }
+
+    // Getter for number of nights
+    public int getNumberOfNights() {
+        return numberOfNights;
+    }
+
+    // Setter for number of nights
+    public void setNumberOfNights(int numberOfNights) {
+        this.numberOfNights = numberOfNights;
+    }
+
+    // Getter to check if it's a weekend stay
+    public boolean isWeekend() {
+        return isWeekend;
+    }
+
+    // Setter to define if the stay includes a weekend
+    // Also triggers a price re-evaluation
+    public void setIsWeekend(boolean isWeekend) {
+        this.isWeekend = isWeekend;
+        setRoomType(this.roomType);  // Reapply roomType to recalculate price
+    }
+
+    // Method to calculate total cost of the reservation
+    public double getReservationTotal() {
+        double total = this.getPrice() * this.getNumberOfNights();
+
+        // Add 10% surcharge if stay is during the weekend
+        if (this.isWeekend()) {
+            total = total + (total * 0.1);
+        }
+
+        return total;
+    }
+}

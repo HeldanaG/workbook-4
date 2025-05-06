@@ -1,13 +1,19 @@
 package com.pluralsight;
 
+import java.time.Duration;
+import java.time.LocalTime;
+
 public class Employee {
 
-    private String employeeId;
-    private String name;
-    private String department;
-    private double payRate;
-    private double hoursWorked;
+    // Fields to store employee information
+    private String employeeId;       // Unique ID for the employee
+    private String name;             // Employee name
+    private String department;       // Department where the employee works
+    private double payRate;          // Hourly pay rate
+    private double hoursWorked;      // Total hours worked
+    private LocalTime punchInTime = null; // Time when employee last punched in
 
+    // Constructor to initialize all employee details
     public Employee(String employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
         this.name = name;
@@ -16,18 +22,38 @@ public class Employee {
         this.hoursWorked = hoursWorked;
     }
 
-    // drived getters for
+    // Method to handle both punch-in and punch-out using LocalTime
+    public void punchTimeCard(LocalTime time) {
+        if (punchInTime == null) {
+            // If no punch-in yet, this call acts as punch-in
+            punchInTime = time;
+            System.out.println(name + " punched in at " + punchInTime);
+        } else {
+            // If already punched in, this call acts as punch-out
+            Duration duration = Duration.between(punchInTime, time);
+            double hours = duration.toMinutes() / 60.0;  // Convert minutes to decimal hours
+            hoursWorked += hours;
+            System.out.printf("%s punched out at %s \n(Worked %.2f hrs)%n", name, time, hours);
+            punchInTime = null;
+        }
+    }
+
+    // Getter for regular hours (up to 40 max)
     public double getRegularHours() {
         return Math.min(40, hoursWorked);
     }
 
+    // Getter for overtime hours (any hours over 40)
     public double getOvertimeHours() {
         return Math.max(0, hoursWorked - 40);
     }
 
+    // Getter for total pay (regular + 1.5x overtime)
     public double getTotalPay() {
         return (getRegularHours() * payRate) + (getOvertimeHours() * payRate * 1.5);
     }
+
+    // Standard getters and setters below
 
     public double getHoursWorked() {
         return hoursWorked;
