@@ -24,10 +24,8 @@ public class Reservation {
                 this.price = 139.00;
             } else if (roomType.equalsIgnoreCase("double")) {
                 this.price = 124.00;
-            }
-            // Apply weekend increase
-            if (isWeekend) {
-                this.price *= 0.10;
+            }else {
+                this.price=0;
             }
         }
 
@@ -54,6 +52,12 @@ public class Reservation {
         }
 
         public double getReservationTotal() {
-            return price * numberOfNights;
+           double total= this.getPrice() * this.getNumberOfNights();
+
+            // Apply weekend increase
+            if (this.isWeekend()) {
+               total=total*(total*0.1);
+            }
+            return total;
         }
     }
