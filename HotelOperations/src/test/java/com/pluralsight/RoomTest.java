@@ -11,8 +11,7 @@ public class RoomTest {
     {
         Room room = new Room(2, 139.00, false, false);
         room.checkIn();
-        assertTrue(room.isOccupied());
-        assertTrue(room.isDirty());
+        assertTrue(room.isOccupied() && room.isDirty());
     }
 
     @Test
@@ -38,8 +37,7 @@ public class RoomTest {
     {
         Room room = new Room(2, 139.00, true, true); // occupied and dirty
         room.checkOut();
-        assertFalse(room.isOccupied());
-        assertFalse(room.isDirty());
+        assertFalse(room.isOccupied() && room.isDirty());
     }
 
     @Test
