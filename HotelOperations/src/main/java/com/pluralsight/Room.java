@@ -47,10 +47,9 @@ public class Room {
     public void checkIn() {
         if (!isAvailable()) {
             System.out.println("Room is not available for check-in.");
-            return;
         }
         isOccupied = true;
-        isDirty = true;
+        isDirty = true; // mark room dirty once occupied
         System.out.println("Guest checked in.");
     }
 
@@ -59,8 +58,8 @@ public class Room {
     public void checkOut() {
         if (!isOccupied) {
             System.out.println("Room is already vacant.");
-            return;
         }
+        this.cleanRoom();
         isOccupied = false;
         System.out.println("Guest checked out. Room now needs cleaning.");
     }
@@ -70,7 +69,6 @@ public class Room {
     public void cleanRoom() {
         if (!isDirty) {
             System.out.println("Room is already clean.");
-            return;
         }
         isDirty = false;
         System.out.println("Room has been cleaned.");

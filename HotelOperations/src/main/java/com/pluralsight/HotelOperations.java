@@ -43,11 +43,13 @@ public class HotelOperations {
 
         // Create two Employee objects
         Employee emp1 = new Employee("1111", "Heldana", "Front Desk", 17, 0); // 0 initial hours
-        Employee emp2 = new Employee("2222", "James", "Security", 15.00, 45); // Already worked 45 hours
+        Employee emp2 = new Employee("2222", "James", "Security", 15.00, 0); // Already worked 45 hours
 
         // Simulate punch-in and punch-out for emp1
-        emp1.punchTimeCard(LocalTime.of(9, 0));   // Punch in at 9:00 AM
-        emp1.punchTimeCard(LocalTime.of(17, 0));  // Punch out at 5:00 PM (8 hrs)
+        emp2.punchTimeCard(LocalTime.of(9, 0));   // Punch in at 9:00 AM
+        emp2.punchTimeCard(LocalTime.of(17, 30));  // Punch out at 5:30 PM (8 hrs)
+
+        emp1.punchTimeCard(); // Will act as punch-in or punch-out depending on state
 
         // Print payroll information for employee 1
         System.out.println("\nEmployee ID: " + emp1.getEmployeeId());
@@ -62,6 +64,44 @@ public class HotelOperations {
         System.out.println("Regular hours for employee 2: " + emp2.getRegularHours());
         System.out.println("Overtime hours for employee 2: " + emp2.getOvertimeHours());
         System.out.println("Total pay for employee 2: $" + emp2.getTotalPay());
+
+        // ------------------ HOTEL TESTING ------------------
+
+        System.out.println("\nHotel---------------------------------------------------------------------");
+
+        // Create a Hotel object with 3 suites and 5 basic rooms (no initial bookings)
+        Hotel hotel1 = new Hotel("Sunset Lodge", 3, 5);
+
+        // Display available suites and rooms before booking
+        System.out.println("Available suites: " + hotel1.getAvailableSuites());
+        System.out.println("Available basic rooms: " + hotel1.getAvailableRooms() + "\n");
+
+        // Try to book 2 suites
+        boolean bookedSuites = hotel1.bookRoom(2, true);  // true = suites
+        if (bookedSuites){
+            System.out.println("Successful Booked 2 suites. ");
+        }else {
+            System.out.println("Attempt to book 2 suites was  unsuccessful? ");
+        }
+
+        // Try to book 4 basic rooms
+        boolean bookedRooms = hotel1.bookRoom(4, false); // false = basic rooms
+        if (bookedRooms){
+            System.out.println("Successful Booked 4 rooms. ");
+        }else {
+            System.out.println("Attempt to book 4 rooms was  unsuccessful? ");
+        }
+        // Display availability after bookings
+        System.out.println("\nAvailable suites after booking: " + hotel1.getAvailableSuites());
+        System.out.println("Available basic rooms after booking: " + hotel1.getAvailableRooms()+ "\n");
+
+        // Try to book more suites than available
+        boolean overbook = hotel1.bookRoom(5, true);  // Attempt to overbook suites
+        if (overbook){
+            System.out.println("Successful Booked 5 suites. ");
+        }else {
+            System.out.println("Attempt to book 5 suites was  unsuccessful? ");
+        }
 
     }
 }

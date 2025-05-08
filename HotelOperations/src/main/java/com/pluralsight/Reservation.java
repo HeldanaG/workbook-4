@@ -62,13 +62,12 @@ public class Reservation {
 
     // Method to calculate total cost of the reservation
     public double getReservationTotal() {
-        double total = this.getPrice() * this.getNumberOfNights();
+        double nightlyRate = this.getPrice(); // or just getPrice();
 
-        // Add 10% surcharge if stay is during the weekend
-        if (this.isWeekend()) {
-            total = total + (total * 0.1);
+        if (this.isWeekend) {
+            nightlyRate *= 1.10; // Apply 10% surcharge per night
         }
 
-        return total;
+        return nightlyRate * this.numberOfNights;
     }
 }

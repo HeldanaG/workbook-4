@@ -38,7 +38,28 @@ public class Employee {
         }
     }
 
-    // Getter for regular hours (up to 40 max)
+    // Overloaded method to use the current system time
+        public void punchTimeCard() {
+            // Use only hour and minute from LocalTime.now()
+            int hour = LocalTime.now().getHour();
+            int minute = LocalTime.now().getMinute();
+            LocalTime currentTime = LocalTime.of(hour, minute);
+
+            // Use simplified output time without nanoseconds
+            if (punchInTime == null) {
+                punchInTime = currentTime;
+                System.out.println(name + " punched in at " + punchInTime);
+            } else {
+                Duration duration = Duration.between(punchInTime, currentTime);
+                double hours = duration.toMinutes() / 60.0;
+                hoursWorked += hours;
+                System.out.printf("%s punched out at %s (Worked %.2f hrs)%n", name, currentTime, hours);
+                punchInTime = null;
+            }
+        }
+
+
+        // Getter for regular hours (up to 40 max)
     public double getRegularHours() {
         return Math.min(40, hoursWorked);
     }
